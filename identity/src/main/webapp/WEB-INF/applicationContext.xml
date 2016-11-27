@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="userDao" class="com.clife.identity.dao.UserDao" />
+
+    <bean id="objectifySharedService" class="com.clife.restCommon.ObjectifySharedService" />
+    <bean id="restControllerMap" class="com.clife.restCommon.RestControllerMap">
+        <constructor-arg index="0">
+            <map>
+                <entry key="user" value-ref="userController" />
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id="userController" class="com.clife.identity.controller.UserController">
+        <property name="objectifySharedService" ref="objectifySharedService" />
+        <property name="authorizer" ref="userAuthorizer" />
+    </bean>
+    <bean id="userAuthorizer" class="com.clife.identity.security.UserAuthorizer" />
+</beans>
